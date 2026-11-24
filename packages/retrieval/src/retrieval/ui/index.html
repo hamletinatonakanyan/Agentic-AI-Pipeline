@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Retrieval</title>
+  <link rel="stylesheet" href="/ui/kit/kit.css">
+  <style>
+    section.block { margin: 16px 0; }
+    .qrow { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .qrow input[type=text] { flex: 1; min-width: 14rem; }
+    .panels { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+    .panel { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; background: var(--card); }
+    .panel h3 { margin: 0 0 8px; font-size: 0.95rem; }
+    .panel label { display: flex; flex-direction: column; font-size: 0.8rem; color: var(--muted); margin: 6px 0; gap: 2px; }
+    .panel label.inline { flex-direction: row; align-items: center; gap: 6px; }
+    .panel input[type=range] { padding: 0; }
+    .filters .frow { display: flex; gap: 4px; margin: 3px 0; }
+    .filters .frow input { flex: 1; min-width: 0; }
+    .results { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 12px; align-items: start; }
+    .result h3 { margin: 0 0 4px; font-size: 0.95rem; }
+    .timings { font-size: 0.8rem; color: var(--muted); margin-bottom: 6px; }
+    .queries { font-size: 0.85rem; margin: 4px 0; }
+    .queries div::before { content: "› "; color: var(--muted); }
+    .hit { border: 1px solid var(--line); border-radius: 6px; margin: 6px 0; padding: 6px 10px; }
+    .hit.both { border-left: 4px solid var(--ok); }
+    .hit.only { border-left: 4px solid var(--warn); }
+    .hit .meta { display: flex; gap: 8px; flex-wrap: wrap; font-size: 0.78rem; color: var(--muted); }
+    .hit .meta b { color: var(--fg); }
+    .hit .body { margin: 4px 0 0; white-space: pre-wrap; word-break: break-word; font-size: 0.88rem; }
+    .warn { color: var(--warn); font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Retrieval</h1>
+    <div id="keybar"></div>
+    <p id="status" class="muted"></p>
+    <p id="error" class="error"></p>
+
+    <section class="block">
+      <div class="qrow">
+        <input id="query" type="text" placeholder="Ask a question about your documents">
+        <select id="collection" title="collection"></select>
+        <button id="run" disabled>Search</button>
+        <label class="row" style="font-size: 0.9rem"><input id="compare" type="checkbox"> Compare two settings</label>
+      </div>
+      <p id="spec" class="muted" style="margin: 4px 0 0; font-size: 0.85rem"></p>
+    </section>
+
+    <section class="block panels" id="panels"></section>
+    <section class="block results" id="results"></section>
+  </main>
+
+  <script src="/ui/kit/kit.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

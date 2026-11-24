@@ -1,0 +1,11 @@
+# Qdrant, the vector store. Start it with `make up`.
+services:
+  qdrant:
+    image: qdrant/qdrant:latest   # pin a version tag once you pick one
+    container_name: agentic-blocks-qdrant
+    ports:
+      - "6333:6333"   # REST API and dashboard
+      - "6334:6334"   # gRPC
+    volumes:
+      - ../qdrant_storage:/qdrant/storage   # git-ignored
+    restart: unless-stopped

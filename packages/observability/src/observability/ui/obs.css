@@ -1,0 +1,58 @@
+/* Observability page. Colors come from the shared palette in kit.css. */
+main.wide { max-width: 1180px; }
+.finder { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 10px 0; }
+.finder .sep { width: 1px; height: 24px; background: var(--line); margin: 0 4px; }
+.scope { background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 8px; padding: 6px 12px; }
+td.q { max-width: 380px; }
+td.q .qtext { font-weight: 600; }
+td.q .qroot { font-size: 0.78rem; color: var(--muted); }
+code.id, button.id { font: 0.8rem ui-monospace, monospace; }
+button.id { padding: 0 6px; border-radius: 4px; }
+.detail-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.detail-head h2 { font-size: 1.1rem; margin: 0; }
+.views { display: flex; gap: 4px; }
+.views button.active { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+
+/* the question and the answer */
+.io { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 10px 0; }
+@media (max-width: 800px) { .io { grid-template-columns: 1fr; } }
+.io .box { border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; background: var(--card); }
+.io .box h3 { margin: 0 0 4px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+.io .box .text { white-space: pre-wrap; word-break: break-word; }
+
+/* usage tiles */
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; margin: 10px 0; }
+.tile { border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; background: var(--card); }
+.tile .v { font-size: 1.15rem; font-weight: 700; }
+.tile .l { font-size: 0.75rem; color: var(--muted); }
+.tile.cost .v { color: var(--accent); }
+
+/* steps */
+.steps { margin: 12px 0; }
+.step { border: 1px solid var(--line); border-left: 5px solid var(--kind, var(--muted)); border-radius: 10px; margin: 8px 0; background: var(--card); }
+.step > .top { display: grid; grid-template-columns: 26px minmax(150px, 220px) 1fr minmax(170px, 260px) 84px; gap: 10px; align-items: center; padding: 8px 12px; cursor: pointer; }
+@media (max-width: 800px) { .step > .top { grid-template-columns: 26px 1fr 84px; } .step .what, .step .track { display: none; } }
+.step .n { width: 24px; height: 24px; border-radius: 50%; background: var(--kind, var(--muted)); color: var(--on-color); display: grid; place-items: center; font-size: 0.75rem; font-weight: 700; }
+.step .title { font-weight: 600; }
+.step .title .sub { display: block; font-weight: 400; font-size: 0.75rem; color: var(--muted); }
+.step .what { color: var(--muted); font-size: 0.88rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.step .track { position: relative; height: 10px; background: var(--line); border-radius: 5px; }
+.step .track .bar { position: absolute; top: 0; height: 100%; min-width: 3px; background: var(--kind, var(--accent)); border-radius: 5px; }
+.step .ms { text-align: right; font-variant-numeric: tabular-nums; }
+.step.err { border-color: var(--bad); }
+.step .body { border-top: 1px solid var(--line); padding: 10px 14px 12px 50px; font-size: 0.9rem; }
+.step .body h4 { margin: 10px 0 2px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+.step .body h4:first-child { margin-top: 0; }
+.step .body .val { white-space: pre-wrap; word-break: break-word; }
+.step .body pre { margin: 2px 0; padding: 6px 8px; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; white-space: pre-wrap; word-break: break-word; font: 0.8rem ui-monospace, monospace; }
+.step .body .passage { border-left: 3px solid var(--kind, var(--line)); padding: 2px 0 2px 10px; margin: 6px 0; }
+.step .body .passage .head { font-size: 0.8rem; color: var(--muted); }
+.step .body .subspans { margin-top: 10px; font-size: 0.82rem; color: var(--muted); }
+.step .body .subspans div { padding: 1px 0; }
+.chip { display: inline-block; padding: 0 8px; border-radius: 999px; font-size: 0.75rem; border: 1px solid var(--line); margin-right: 4px; }
+.chip.ok { color: var(--ok); border-color: var(--ok); } .chip.bad { color: var(--bad); border-color: var(--bad); } .chip.warn { color: var(--warn); border-color: var(--warn); }
+
+/* step kinds */
+.k-memory { --kind: var(--c-memory); } .k-tools { --kind: var(--c-tools); } .k-route { --kind: var(--c-route); }
+.k-search { --kind: var(--c-search); } .k-write { --kind: var(--c-write); } .k-check { --kind: var(--c-check); }
+.k-cite { --kind: var(--c-cite); } .k-other { --kind: var(--muted); }

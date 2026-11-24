@@ -1,0 +1,32 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Local data and caches
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.db
+.cache/
+data/
+qdrant_storage/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+# Tooling and OS
+.DS_Store
+.idea/
+.vscode/
+
+# Local notes, design documents and sample data: kept on disk, not in the repository
+docs/
+test-data/

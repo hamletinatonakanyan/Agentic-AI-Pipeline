@@ -1,0 +1,89 @@
+/* UI kit styles shared by every package UI. One palette, light and dark. No fonts or files are
+   loaded from the web. Change colors here and every page follows. */
+:root {
+  --bg: #f6f7fb; --surface: #ffffff; --card: #ffffff; --fg: #1b1f2a; --muted: #667085;
+  --line: #e3e6ee; --shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.08);
+  --accent: #4f46e5; --accent-soft: #eef0ff; --on-accent: #ffffff; --on-color: #ffffff;
+  --ok: #067647; --ok-soft: #e7f6ee; --warn: #b54708; --warn-soft: #fff4e5;
+  --bad: #b42318; --bad-soft: #fdecea;
+  /* the colors of an agent's steps */
+  --c-memory: #8b5cf6; --c-tools: #ea580c; --c-route: #2563eb; --c-search: #0d9488;
+  --c-write: #4f46e5; --c-check: #b45309; --c-cite: #db2777;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0e1016; --surface: #161a23; --card: #161a23; --fg: #e8eaf0; --muted: #9aa3b5;
+    --line: #2a3040; --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --accent: #8b93ff; --accent-soft: #232650; --on-accent: #0e1016;
+    --ok: #4ade80; --ok-soft: #12301f; --warn: #fbbf24; --warn-soft: #382a0b;
+    --bad: #f87171; --bad-soft: #3a1616;
+    --c-memory: #a78bfa; --c-tools: #fb923c; --c-route: #60a5fa; --c-search: #2dd4bf;
+    --c-write: #818cf8; --c-check: #fbbf24; --c-cite: #f472b6;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg);
+  font: 15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 1040px; margin: 0 auto; padding: 20px 18px 48px; }
+h1 { font-size: 1.45rem; margin: 0 0 14px; letter-spacing: -0.01em; }
+h2 { font-size: 1.1rem; margin: 18px 0 8px; }
+h3 { font-size: 1rem; margin: 14px 0 6px; }
+a { color: var(--accent); }
+.muted { color: var(--muted); }
+.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+input, button, select, textarea { font: inherit; padding: 7px 11px; border: 1px solid var(--line);
+  border-radius: 8px; background: var(--surface); color: var(--fg); }
+input:focus, select:focus, textarea:focus, button:focus-visible { outline: 2px solid var(--accent);
+  outline-offset: 1px; border-color: var(--accent); }
+textarea { width: 100%; }
+button { cursor: pointer; transition: background 0.12s, border-color 0.12s; }
+button:hover { border-color: var(--accent); background: var(--accent-soft); }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+button.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 600; }
+button.primary:hover { filter: brightness(1.08); background: var(--accent); }
+button.danger { color: var(--bad); border-color: var(--bad); }
+button.danger:hover { background: var(--bad-soft); }
+
+.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--line); margin: 14px 0 16px; flex-wrap: wrap; }
+.tabs button { border: 0; border-bottom: 3px solid transparent; border-radius: 8px 8px 0 0;
+  background: none; padding: 8px 14px; color: var(--muted); font-weight: 500; text-transform: capitalize; }
+.tabs button:hover { color: var(--fg); background: var(--accent-soft); }
+.tabs button.active { border-bottom-color: var(--accent); color: var(--accent); font-weight: 700; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px;
+  box-shadow: var(--shadow); }
+.card h3 { margin: 0 0 8px; font-size: 1rem; text-transform: capitalize; }
+.badge { display: inline-block; padding: 1px 9px; border-radius: 999px; font-size: 0.78rem; font-weight: 600;
+  border: 1px solid var(--line); background: var(--surface); }
+.badge.ok { color: var(--ok); background: var(--ok-soft); border-color: transparent; }
+.badge.warn { color: var(--warn); background: var(--warn-soft); border-color: transparent; }
+.badge.bad { color: var(--bad); background: var(--bad-soft); border-color: transparent; }
+
+table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 10px; overflow: hidden; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted);
+  background: var(--bg); font-weight: 600; }
+tr:last-child td { border-bottom: 0; }
+.error { color: var(--bad); }
+.notice { background: var(--warn-soft); color: var(--warn); border-radius: 8px; padding: 8px 12px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px;
+  box-shadow: var(--shadow); margin: 12px 0; }
+
+/* Timeline bars (trace waterfall) */
+.wf { display: grid; grid-template-columns: minmax(140px, 32%) 1fr 70px; gap: 6px; align-items: center;
+  padding: 3px 0; border-bottom: 1px solid var(--line); font-size: 0.9rem; cursor: pointer; }
+.wf .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wf .track { position: relative; height: 12px; background: var(--line); border-radius: 4px; }
+.wf .bar { position: absolute; top: 0; height: 100%; min-width: 2px; background: var(--accent);
+  border-radius: 4px; }
+.wf .bar.error { background: var(--bad); }
+.wf .ms { text-align: right; color: var(--muted); }
+tr.clickable { cursor: pointer; }
+tr.clickable:hover td { background: var(--accent-soft); }
+pre.attrs { margin: 4px 0 8px; padding: 8px 10px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 8px; overflow-x: auto; font-size: 0.8rem; }
+iframe.section { width: 100%; height: 78vh; border: 1px solid var(--line); border-radius: 12px;
+  background: var(--bg); }

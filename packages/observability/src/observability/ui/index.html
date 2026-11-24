@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Observability</title>
+  <link rel="stylesheet" href="/ui/kit/kit.css">
+  <link rel="stylesheet" href="obs.css">
+</head>
+<body>
+  <main class="wide">
+    <h1>Observability</h1>
+    <div id="keybar"></div>
+    <p id="status" class="muted"></p>
+
+    <section class="finder" aria-label="Find">
+      <input id="f-find" placeholder="Find by trace id or conversation id" size="40">
+      <button id="find-go" class="primary">Find</button>
+      <span class="sep"></span>
+      <input id="f-name" placeholder="root span name contains" size="22">
+      <select id="f-status">
+        <option value="">any status</option>
+        <option value="ok">ok</option>
+        <option value="error">error</option>
+      </select>
+      <input id="f-dur" type="number" min="0" placeholder="min ms" style="width: 6.5rem">
+      <button id="reload">Reload</button>
+      <span id="error" class="error"></span>
+    </section>
+
+    <p id="scope" class="scope" hidden>
+      <span id="scope-text"></span> <button id="scope-clear">Show all traces</button>
+    </p>
+
+    <table id="traces"></table>
+    <p id="empty" class="muted" hidden>No traces found. Run something that creates spans (for example a chat message or an ingest), then reload.</p>
+
+    <section id="detail" hidden>
+      <div class="detail-head">
+        <h2 id="detail-title"></h2>
+        <nav class="views" id="views">
+          <button data-view="run" class="active">Run</button>
+          <button data-view="spans">All spans</button>
+        </nav>
+      </div>
+      <p id="detail-summary" class="muted"></p>
+      <div id="view-run"></div>
+      <div id="view-spans" hidden><div id="waterfall"></div></div>
+    </section>
+  </main>
+
+  <script src="/ui/kit/kit.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+.domainbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 12px 0; padding: 8px 14px;
+  background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 12px; }
+.domainbar #domain { font-weight: 600; }
+.chat { display: grid; grid-template-columns: 230px 1fr; gap: 14px; }
+@media (max-width: 800px) { .chat { grid-template-columns: 1fr; } }
+.chat-side label { display: flex; flex-direction: column; gap: 2px; font-size: 0.85rem; margin: 6px 0; }
+.chat-side .chat-opts label { flex-direction: row; align-items: center; gap: 6px; }
+.chat-side button { display: block; width: 100%; margin: 4px 0; }
+.chat-side label.inline { flex-direction: row; align-items: center; gap: 6px; font-size: 0.8rem; margin: 2px 0 6px; }
+#c-threads .tchip { font-size: 0.68rem; color: var(--accent); margin-left: 6px; }
+.cmsg .links { margin-top: 4px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.cmsg .links button { padding: 1px 8px; font-size: 0.75rem; }
+#c-threads button { text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#c-threads button.active { border-color: var(--accent); color: var(--accent); }
+.chat-transcript { min-height: 220px; }
+.cmsg { border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; margin: 8px 0; white-space: pre-wrap; word-break: break-word; }
+.cmsg.user { background: var(--card); }
+.cmsg .who { font-size: 0.75rem; color: var(--muted); margin-bottom: 2px; }
+.cmsg .meta { font-size: 0.8rem; color: var(--muted); margin-top: 6px; white-space: normal; }
+.cmsg .warn { color: var(--warn); }
+button.cite { padding: 0 5px; margin: 0 1px; font-size: 0.75rem; border-radius: 4px; vertical-align: super; line-height: 1.2; }
+.sources, .toolcall { font-size: 0.82rem; margin-top: 6px; white-space: normal; }
+.sources .src { border-left: 3px solid var(--line); padding-left: 8px; margin: 4px 0; }
+.sources .src.hit { border-left-color: var(--accent); }
+.sources .src pre, .toolcall pre { margin: 2px 0; white-space: pre-wrap; word-break: break-word; font: 0.8rem ui-monospace, monospace; }
+.toolcall .badge { margin-right: 6px; }
+.capproval { border: 2px solid var(--warn); border-radius: 8px; padding: 8px 12px; margin: 8px 0; }
+.capproval pre { background: var(--card); border-radius: 6px; padding: 6px 8px; font: 0.8rem ui-monospace, monospace; white-space: pre-wrap; }
+#c-message { width: 100%; min-height: 3.2rem; font: inherit; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--fg); padding: 6px 10px; box-sizing: border-box; }

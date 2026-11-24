@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MCP</title>
+  <link rel="stylesheet" href="/ui/kit/kit.css">
+  <style>
+    section.block { margin: 14px 0; }
+    section.block > h2 { font-size: 1.02rem; margin: 0 0 8px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+    .grid label, .tool label.field { display: flex; flex-direction: column; font-size: 0.8rem; color: var(--muted); gap: 2px; }
+    textarea { font: 0.85rem ui-monospace, monospace; border: 1px solid var(--line); border-radius: 6px;
+      background: var(--bg); color: var(--fg); padding: 6px 10px; width: 100%; min-height: 3rem; }
+    .tool { border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; margin: 10px 0; }
+    .tool h3 { margin: 0 0 4px; font-size: 1rem; }
+    .tool .desc { color: var(--muted); font-size: 0.88rem; margin: 0 0 8px; white-space: pre-wrap; }
+    .tool .hint { font-size: 0.75rem; color: var(--muted); }
+    .result { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 8px 12px; margin-top: 8px; }
+    .result pre { margin: 4px 0; white-space: pre-wrap; word-break: break-word; font: 0.85rem ui-monospace, monospace; }
+    .result.bad { border-left: 4px solid var(--bad); } .result.good { border-left: 4px solid var(--ok); }
+    .rules { font-size: 0.82rem; color: var(--muted); }
+    code.small { font-size: 0.82rem; }
+    .warn { color: var(--warn); font-size: 0.88rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>MCP</h1>
+    <div id="keybar"></div>
+    <p id="status" class="rules"></p>
+    <p id="error" class="error"></p>
+
+    <nav class="tabs" id="tabs">
+      <button data-tab="servers" class="active">Servers</button>
+      <button data-tab="tools">Tools</button>
+      <button data-tab="own">Our server</button>
+    </nav>
+
+    <!-- ===== Servers ===== -->
+    <div data-panel="servers">
+      <section class="block"><h2>Registered servers</h2><table id="servers"></table></section>
+
+      <section class="block">
+        <h2>Register a server</h2>
+        <p class="rules" id="rules"></p>
+        <div class="grid">
+          <label>Name <input id="n-name" placeholder="lowercase, e.g. notes"></label>
+          <label>Transport
+            <select id="n-transport"><option value="stdio">stdio (launch a command)</option><option value="streamable-http">HTTP (a URL)</option></select>
+          </label>
+          <label id="n-cmd-box">Command line <input id="n-cmd" placeholder="python -m mcp_tools.server"></label>
+          <label id="n-env-box">Environment variables to pass on <input id="n-env" placeholder="APP_API_KEY, MCP_RETRIEVAL_URL"></label>
+          <label id="n-url-box" hidden>URL <input id="n-url" placeholder="http://localhost:8004/mcp"></label>
+          <label id="n-hdr-box" hidden>Header = variable <input id="n-hdr" placeholder="X-API-Key=APP_API_KEY"></label>
+          <label>Tools allowed (comma separated, or *) <input id="n-allow" placeholder="calculate, search_corpus"></label>
+        </div>
+        <div class="row" style="margin-top: 8px"><button id="n-go">Register</button></div>
+      </section>
+    </div>
+
+    <!-- ===== Tools ===== -->
+    <div data-panel="tools" hidden>
+      <section class="block">
+        <div class="row">
+          <select id="t-server"></select>
+          <button id="t-load">Load tools</button>
+          <button id="t-refresh">Refresh</button>
+          <button id="t-save">Save allow-list</button>
+          <span id="t-info" class="muted"></span>
+        </div>
+        <p class="rules">A tool can be called only if it is ticked. Untick the ones you do not trust, then save.</p>
+        <div id="tools"></div>
+      </section>
+    </div>
+
+    <!-- ===== Our own server ===== -->
+    <div data-panel="own" hidden>
+      <section class="block">
+        <h2>What this project's own MCP server offers</h2>
+        <div id="own"></div>
+      </section>
+    </div>
+  </main>
+
+  <script src="/ui/kit/kit.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

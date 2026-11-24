@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ingest</title>
+  <link rel="stylesheet" href="/ui/kit/kit.css">
+  <style>
+    section.block { margin: 18px 0; }
+    section.block > h2 { font-size: 1.05rem; margin: 0 0 8px; }
+    .drop { border: 2px dashed var(--line); border-radius: 8px; padding: 18px; text-align: center; color: var(--muted); }
+    .drop.over { border-color: var(--accent); color: var(--accent); }
+    .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+    .opts label { display: flex; flex-direction: column; font-size: 0.85rem; color: var(--muted); gap: 2px; }
+    .opts input, .opts select, .opts textarea { color: var(--fg); }
+    textarea { font: 0.85rem ui-monospace, monospace; min-height: 3.2rem; border: 1px solid var(--line);
+      border-radius: 6px; background: var(--bg); padding: 6px 10px; }
+    ul.files { list-style: none; padding: 0; margin: 8px 0; }
+    ul.files li { display: flex; justify-content: space-between; align-items: center; padding: 3px 0;
+      border-bottom: 1px solid var(--line); }
+    .chunk { border: 1px solid var(--line); border-left-width: 5px; border-radius: 6px; margin: 8px 0; }
+    .chunk.a { border-left-color: var(--accent); }
+    .chunk.b { border-left-color: var(--ok); }
+    .chunk .head { display: flex; gap: 10px; flex-wrap: wrap; padding: 4px 10px; font-size: 0.8rem;
+      color: var(--muted); background: var(--card); }
+    .chunk pre { margin: 0; padding: 8px 10px; white-space: pre-wrap; word-break: break-word;
+      font: 0.85rem/1.45 ui-monospace, monospace; }
+    .warn { color: var(--warn); }
+    .grid-stats { display: flex; gap: 14px; flex-wrap: wrap; margin: 6px 0; }
+    .grid-stats div { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 4px 12px; }
+    .grid-stats b { display: block; font-size: 1.1rem; }
+    button.danger:hover { border-color: var(--bad); color: var(--bad); }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Ingest</h1>
+    <div id="keybar"></div>
+    <p id="status" class="muted"></p>
+    <p id="error" class="error"></p>
+
+    <section class="block">
+      <h2>1. Options</h2>
+      <div class="opts">
+        <label>Collection (domain) <input id="o-collection" list="o-collection-list"></label>
+        <datalist id="o-collection-list"></datalist>
+        <label>Chunk strategy
+          <select id="o-strategy"><option>recursive</option><option>fixed</option><option>markdown</option></select>
+        </label>
+        <label>Chunk size (tokens) <input id="o-size" type="number" min="16" max="8000"></label>
+        <label>Overlap (tokens) <input id="o-overlap" type="number" min="0"></label>
+        <label>Language (BM25) <select id="o-language"></select></label>
+      </div>
+      <p class="muted" style="margin: 6px 0 0">
+        <b>Collection = domain.</b> Everything you ingest goes into this collection, and the chat searches the collection you pick.
+        Use one per company or project to keep their data apart. A new name is created by its first ingest.
+      </p>
+      <p class="muted" id="strategy-help" style="margin: 6px 0 0"></p>
+      <p class="muted" style="margin: 6px 0 0">
+        Language only affects the keyword (BM25) side. Use <b>none</b> for a language that is not listed.
+        A collection keeps one language and one embedding model.
+      </p>
+      <label class="opts" style="display:block; margin-top: 8px">
+        <span class="muted" style="font-size: 0.85rem">Metadata (optional). A JSON object of key: value pairs, added to every chunk of this ingest. Search can filter on it later, for example client, type or year.</span>
+        <textarea id="o-metadata" placeholder='{"client": "acme", "type": "faq", "year": 2025}'></textarea>
+      </label>
+    </section>
+
+    <section class="block">
+      <h2>2. Files</h2>
+      <div id="drop" class="drop">
+        Drop files here or <button id="pick" type="button">choose files</button>
+        <div id="formats" class="muted" style="font-size: 0.85rem"></div>
+        <input id="file-input" type="file" multiple hidden>
+      </div>
+      <ul id="files" class="files"></ul>
+      <div class="row">
+        <button id="preview" disabled>Preview chunks (first file)</button>
+        <button id="run" disabled>Ingest</button>
+        <span id="busy" class="muted"></span>
+      </div>
+      <p id="path-help" class="muted" style="margin: 10px 0 0" hidden>
+        <b>Ingest path</b> reads files from a folder on the computer that runs this server (not from your browser). Only folders listed in <code>INGEST_ALLOWED_PATHS</code> are allowed.
+      </p>
+      <div id="path-box" class="row" style="margin-top: 6px" hidden>
+        <input id="path" placeholder="server path inside the allowed folders" style="flex: 1; min-width: 14rem">
+        <button id="run-path">Ingest path</button>
+      </div>
+    </section>
+
+    <section class="block" id="preview-box" hidden>
+      <h2>Preview</h2>
+      <p id="preview-info" class="muted"></p>
+      <div id="preview-warnings" class="warn"></div>
+      <div id="chunks"></div>
+    </section>
+
+    <section class="block" id="report-box" hidden>
+      <h2>Run</h2>
+      <p id="job-state"></p>
+      <div id="report"></div>
+    </section>
+
+    <section class="block">
+      <h2>Collections and sources</h2>
+      <div class="row">
+        <select id="c-select"></select>
+        <button id="c-reload">Reload</button>
+        <button id="c-delete-all" class="danger" title="Delete the whole collection and forget what was ingested into it">Delete this collection</button>
+        <span id="c-info" class="muted"></span>
+      </div>
+      <table id="sources" style="margin-top: 8px"></table>
+    </section>
+  </main>
+
+  <script src="/ui/kit/kit.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

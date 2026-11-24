@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic Blocks</title>
+  <link rel="stylesheet" href="/ui/kit/kit.css">
+  <link rel="stylesheet" href="chat.css">
+</head>
+<body>
+  <main>
+    <h1>Agentic Blocks</h1>
+
+    <section class="row" aria-label="Access key">
+      <label for="key">Access key</label>
+      <input id="key" type="password" autocomplete="off" placeholder="APP_API_KEY">
+      <button id="save">Save</button>
+      <button id="clear">Clear</button>
+      <span id="key-state" class="muted"></span>
+    </section>
+
+    <section class="domainbar" aria-label="Domain">
+      <label for="domain"><b>Domain</b></label>
+      <input id="domain" list="domain-list" placeholder="docs (default)" autocomplete="off" size="22">
+      <datalist id="domain-list"></datalist>
+      <span class="muted" id="domain-note">One domain = one collection: the documents of one company or project. Chat, Ingest, Retrieval and Evals all use it. A new name is created by its first ingest.</span>
+    </section>
+
+    <!-- Package sections are added here as tabs once /api/status says they are built. -->
+    <nav class="tabs" id="tabs">
+      <button data-tab="status" class="active">Status</button>
+      <button data-tab="chat">Chat</button>
+    </nav>
+
+    <section data-panel="status">
+      <div class="row"><button id="refresh">Refresh</button><span id="status-error" class="error"></span></div>
+      <div id="cards" class="cards"></div>
+    </section>
+
+    <section data-panel="chat" hidden>
+      <p id="chat-blocked" class="error" hidden></p>
+      <div class="chat" id="chat">
+        <aside class="chat-side">
+          <label class="muted">User id (for memory)<input id="c-user" placeholder="optional" autocomplete="off"></label>
+          <button id="c-new" class="primary">+ New conversation</button>
+          <label class="inline"><input type="checkbox" id="c-only-domain" checked> Only this domain</label>
+          <div id="c-threads"></div>
+          <details class="chat-opts" open>
+            <summary>Options</summary>
+            <label><input type="checkbox" id="c-ret" checked> Search documents</label>
+            <label>Domain (collection) <input id="c-coll" placeholder="the active domain" size="12"></label>
+            <label>Mode <select id="c-mode"><option>hybrid</option><option>dense</option><option>sparse</option></select></label>
+            <label><input type="checkbox" id="c-rerank"> Rerank</label>
+            <label>Passages <input id="c-topk" type="number" min="1" max="50" placeholder="5" style="width:4rem"></label>
+            <label><input type="checkbox" id="c-tools" checked> Use tools</label>
+            <label><input type="checkbox" id="c-reasoning"> Use reasoning</label>
+            <span class="muted" id="c-reasoning-note"></span>
+          </details>
+        </aside>
+        <div class="chat-main">
+          <div id="c-transcript" class="chat-transcript"></div>
+          <div id="c-approvals"></div>
+          <p id="c-error" class="error"></p>
+          <textarea id="c-message" placeholder="Ask about your documents, or ask for a calculation... (Ctrl+Enter to send)"></textarea>
+          <div class="row"><button id="c-send">Send</button><span id="c-busy" class="muted"></span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/ui/kit/kit.js"></script>
+  <script src="app.js"></script>
+  <script src="chat.js"></script>
+</body>
+</html>
